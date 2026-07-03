@@ -1,0 +1,3 @@
+{"tool":"search","latency_ms":820,"tokens":1400,"cost_usd":0.0021}
+{"tool":"search","latency_ms":1240,"tokens":900,"cost_usd":0.0018}
+{"tool":"browser","latency_ms":410,"tokens":120,"cost_usd":0.0002}
