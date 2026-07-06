@@ -1,36 +1,39 @@
-<img src="assets/banner.svg" alt="tool-call-budgeter banner">
+# Tool Call Budgeter
 
-# tool-call-budgeter
+![stack](https://img.shields.io/badge/stack-Python-b45309?style=flat-square) ![python](https://img.shields.io/badge/python-3.11-be185d?style=flat-square) ![license](https://img.shields.io/badge/license-MIT-4b5563?style=flat-square) ![ci](https://img.shields.io/badge/ci-GitHub%20Actions-2563eb?style=flat-square)
 
-Agent systems often fail through accumulation: one slow search, then three retries, then a tool call nobody
-budgeted. This CLI turns tool-call traces into a small budget report.
+![Tool Call Budgeter cover](assets/readme-cover.svg)
 
-## Trace row
+Summarize agent tool-call latency, token, and cost budgets.
 
-```json
-{"tool":"search","latency_ms":820,"tokens":1400,"cost_usd":0.0021}
-```
+## Use case
 
-## Budget pass
+- quick local checks around tooling reviews
+- small CI jobs where a readable report is enough
+- review workflows that need deterministic output
+- examples based on `examples/tools.jsonl`
+
+## Local setup
 
 ```bash
-tool-call-budgeter examples/tools.jsonl --latency-target-ms 700 --cost-budget 0.01
+git clone https://github.com/mertefekurt/tool-call-budgeter.git
+cd tool-call-budgeter
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
 ```
 
-It reports:
+## CLI
 
-- calls per tool
-- total tokens and cost
-- approximate p95 latency
-- budget notes such as "cache candidate" or "cost cap needed"
+```bash
+tool-call-budgeter examples/tools.jsonl
+```
 
-## Why no dashboard?
+## Quality check
 
-This is meant for CI artifacts, pull request notes, and local trace review. Plain text and JSON travel better
-than a service dependency.
-
-## Verification
-
-`pytest` covers p95 calculation, grouping, recommendations, JSON output, CLI help, and empty traces.
-
-MIT.
+```bash
+python -m pip install -e ".[dev]"
+ruff check .
+pytest
+python -m tool_call_budgeter --help
+```
